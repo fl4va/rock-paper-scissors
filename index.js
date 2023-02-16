@@ -1,37 +1,68 @@
+let playerSelection;
+let computerSelection;
 let pScore = 0;
 let cScore = 0;
 
-function playRound ( playerSelection, computerSelection ) {
+const btn = document.querySelectorAll('.option')
+btn.forEach((option) => {   
+    option.addEventListener('click', () => {
+        playerSelection = option.textContent.toLocaleLowerCase()
+        game()
+        if (pScore === 5 || cScore === 5 ) {
+            endGame()
+        }
+    })
+})
 
-    function getComputerChoice () {
-        let a = ["rock", "paper", "scissors"]
-        return  a[Math.floor(Math.random() * 3)]  
-    } getComputerChoice()
-    
-    playerSelection = prompt("chose your weapon").toLocaleLowerCase()
+function getComputerChoice () {
+    let a = ["rock", "paper", "scissors"]
+    return  a[Math.floor(Math.random() * 3)]  
+} 
+
+function playRound ( playerSelection, computerSelection) {
+
     computerSelection = getComputerChoice()
 
-    // if ( playerSelection !== "rock" || playerSelection !== "paper" || playerSelection !== "scissors" ) return `uk` 
     if ( computerSelection === playerSelection ) return `Its A Tie, You Both Chosen ${computerSelection}` 
-    if ( computerSelection === "rock" && playerSelection === "paper" ) {
+    else if ( computerSelection === "rock" && playerSelection === "paper" ) {
         pScore+= 1
         return `You Win! ${playerSelection} beats ${computerSelection}`}
-    if (  computerSelection === "paper" && playerSelection === "scissors") {
+    else if (  computerSelection === "paper" && playerSelection === "scissors") {
         pScore+=1
     return `You Win! ${playerSelection} beats ${computerSelection}`}
     else {
         cScore+=1
         return `You Lose! ${computerSelection} beats ${playerSelection}`}
-} playRound()
-
+        
+} 
 
 function game() {
+    let thisRound = document.querySelector('.thisRound')
+    let pSco = document.querySelector('.pScore')
+    let cSco = document.querySelector('.cScore')
+
+    thisRound.textContent = playRound(playerSelection, computerSelection)
+    pSco.textContent = `Me: ${pScore}`
+    cSco.textContent = `Computer: ${cScore}`
     
-    while (pScore<5 && cScore<5) {
-        console.log(playRound())
-        console.log(`Your Score Is :${pScore}`)
-        console.log(`Computer's Score Is :${cScore}`)
+    document.body.appendChild(thisRound)
+    document.body.appendChild(pSco)
+    document.body.appendChild(cSco)
+} 
+
+function endGame () {
+
+    let iWin = document.querySelector('.final')
+    let cWin = document.querySelector('.final')
+
+    if ( pScore === 5) {
+        iWin.textContent = `Yeey! You DID It ${pScore} - ${cScore}`
+        document.body.appendChild(iWin)
     }
-    if ( pScore === 5) console.log(`You WIN! ${pScore} - ${cScore}`)
-    else if ( cScore === 5 ) console.log(`You LOSE! ${cScore} - ${pScore}`)
-} game()
+    else if ( cScore === 5 ) {
+        cWin.textContent = `OH NO! You Lost ${cScore} - ${pScore}`
+        document.body.appendChild(cWin)
+    }
+    pScore = 0;
+    cScore = 0;
+}
