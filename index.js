@@ -3,66 +3,85 @@ let computerSelection;
 let pScore = 0;
 let cScore = 0;
 
-const btn = document.querySelectorAll('.option')
+
+const btn = document.querySelectorAll('.option');
 btn.forEach((option) => {   
     option.addEventListener('click', () => {
-        playerSelection = option.textContent.toLocaleLowerCase()
-        game()
+        const img = option.querySelector('img');
+        playerSelection = img.alt.toLowerCase();
+        game();
         if (pScore === 5 || cScore === 5 ) {
-            endGame()
-        }
-    })
-})
+            endGame();
+            resetGame();
+            disableButtons();
+        };
+    });
+});
 
 function getComputerChoice () {
-    let a = ["rock", "paper", "scissors"]
-    return  a[Math.floor(Math.random() * 3)]  
-} 
+    let a = ["rock", "paper", "scissors"];
+    return  a[Math.floor(Math.random() * 3)];  
+}; 
 
 function playRound ( playerSelection, computerSelection) {
 
-    computerSelection = getComputerChoice()
+    computerSelection = getComputerChoice();
 
-    if ( computerSelection === playerSelection ) return `Its A Tie, You Both Chosen ${computerSelection}` 
+    if ( computerSelection === playerSelection ) return `Its A Tie!`; 
     else if ( computerSelection === "rock" && playerSelection === "paper" ) {
-        pScore+= 1
+        pScore+= 1;
         return `You Win! ${playerSelection} beats ${computerSelection}`}
     else if (  computerSelection === "paper" && playerSelection === "scissors") {
-        pScore+=1
+        pScore+=1;
     return `You Win! ${playerSelection} beats ${computerSelection}`}
     else {
-        cScore+=1
-        return `You Lose! ${computerSelection} beats ${playerSelection}`}
-        
-} 
+        cScore+=1;
+        return `You Lose! ${computerSelection} beats ${playerSelection}`};
+}; 
 
 function game() {
-    let thisRound = document.querySelector('.thisRound')
-    let pSco = document.querySelector('.pScore')
-    let cSco = document.querySelector('.cScore')
+    let thisRound = document.querySelector('.thisRound');
+    let cPick = document.querySelector('.cPick');
+    let pSco = document.querySelector('.pScore');
+    let cSco = document.querySelector('.cScore');
 
-    thisRound.textContent = playRound(playerSelection, computerSelection)
-    pSco.textContent = `Me: ${pScore}`
-    cSco.textContent = `Computer: ${cScore}`
-    
-    document.body.appendChild(thisRound)
-    document.body.appendChild(pSco)
-    document.body.appendChild(cSco)
-} 
+    thisRound.textContent = playRound(playerSelection, computerSelection);
+    pSco.textContent = `Me: ${pScore}`;
+    cSco.textContent = `Computer: ${cScore}`;
+    cPick.textContent = `Computer's choice : ${getComputerChoice()}`;
+
+    document.body.appendChild(thisRound);
+    document.body.appendChild(cPick);
+    document.body.appendChild(pSco);
+    document.body.appendChild(cSco);
+}; 
 
 function endGame () {
 
-    let iWin = document.querySelector('.final')
-    let cWin = document.querySelector('.final')
+    let final = document.querySelector('.final');
 
     if ( pScore === 5) {
-        iWin.textContent = `Yeey! You DID It ${pScore} - ${cScore}`
-        document.body.appendChild(iWin)
+        final.textContent = `Yeey! YOU DID IT ${pScore} - ${cScore}`
     }
     else if ( cScore === 5 ) {
-        cWin.textContent = `OH NO! You Lost ${cScore} - ${pScore}`
-        document.body.appendChild(cWin)
+        final.textContent = `OH NO! YOU Lost ${cScore} - ${pScore}`
     }
-    pScore = 0;
-    cScore = 0;
-}
+    document.body.appendChild(final)
+};
+
+function resetGame () {
+    const newGame = document.createElement('button');
+    newGame.textContent = 'Play Again';
+    document.body.appendChild(newGame);
+    newGame.style.cssText = 'position: absolute; left: 50%; transform: translateX(-50%); margin: 10px; padding: 5px; font-weight: bold; font-size: 20px;border: 1px solid black; border-radius: 5px;'
+
+    newGame.onclick = () => {
+        document.location.reload()
+    };
+};
+
+function disableButtons () {
+    btn.forEach((option) => {
+        option.disabled = true
+    });
+};
