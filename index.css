@@ -59,15 +59,6 @@ h1:after {
     color: black;
 }
 
-.cPick{
-    display: flex;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 22px;
-    color: #881a4a;
-    margin-bottom: 20px;
-}
-
 .pScore,
 .cScore{
     display: flex;

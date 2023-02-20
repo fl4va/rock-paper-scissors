@@ -27,31 +27,26 @@ function playRound ( playerSelection, computerSelection) {
 
     computerSelection = getComputerChoice();
 
-    if ( computerSelection === playerSelection ) return `Its A Tie!`; 
-    else if ( computerSelection === "rock" && playerSelection === "paper" ) {
-        pScore+= 1;
-        return `You Win! ${playerSelection} beats ${computerSelection}`}
-    else if (  computerSelection === "paper" && playerSelection === "scissors") {
-        pScore+=1;
-    return `You Win! ${playerSelection} beats ${computerSelection}`}
+    if ( computerSelection === playerSelection ) {return `Its A Tie! You Both Chose ${computerSelection}`} 
+    else if ((computerSelection === "rock" && playerSelection === "paper" ) ||
+            (computerSelection === "paper" && playerSelection === "scissors") ||(computerSelection === 'scissors' && playerSelection === 'rock')) {
+             pScore+=1
+             return `You Win! ${playerSelection} beats ${computerSelection}` }
     else {
-        cScore+=1;
-        return `You Lose! ${computerSelection} beats ${playerSelection}`};
+            cScore+=1;
+            return `You Lose! ${computerSelection} beats ${playerSelection}`};
 }; 
 
 function game() {
     let thisRound = document.querySelector('.thisRound');
-    let cPick = document.querySelector('.cPick');
     let pSco = document.querySelector('.pScore');
     let cSco = document.querySelector('.cScore');
 
     thisRound.textContent = playRound(playerSelection, computerSelection);
     pSco.textContent = `Me: ${pScore}`;
     cSco.textContent = `Computer: ${cScore}`;
-    cPick.textContent = `Computer's choice : ${getComputerChoice()}`;
 
     document.body.appendChild(thisRound);
-    document.body.appendChild(cPick);
     document.body.appendChild(pSco);
     document.body.appendChild(cSco);
 }; 
